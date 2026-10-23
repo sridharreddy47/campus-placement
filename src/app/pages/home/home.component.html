@@ -1,0 +1,137 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container hero-container">
+    <div class="hero-content">
+      <span class="badge hero-badge">Institutional Placement Cell</span>
+      <h1 class="hero-title">Campus Placement Management System</h1>
+      <p class="hero-subtitle">Connect students with career opportunities. Streamlined campus placements, automated eligibility verification, and seamless corporate hiring.</p>
+      
+      <div class="hero-actions">
+        <a routerLink="/jobs" class="btn btn-primary">
+          <span>🔍</span> View Jobs
+        </a>
+        @if (!authService.isLoggedIn()) {
+          <a routerLink="/login" class="btn btn-secondary">
+            <span>🔑</span> Student / Admin Login
+          </a>
+        } @else if (authService.isStudent()) {
+          <a routerLink="/student-dashboard" class="btn btn-secondary">
+            <span>👨‍🎓</span> My Dashboard
+          </a>
+        } @else {
+          <a routerLink="/admin-dashboard" class="btn btn-secondary">
+            <span>🛡️</span> Placement Officer Portal
+          </a>
+        }
+      </div>
+
+      <div class="quick-notice">
+        <span class="pulse-dot"></span>
+        <span>Placement Season 2024-25 is currently LIVE for final year eligible students.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Highlight -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-card">
+          <div class="stat-value">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Key Features Section -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Key Features</span>
+      <h2>Designed for Students &amp; Placement Cells</h2>
+      <p>Everything required to conduct transparent and efficient placement drives.</p>
+    </div>
+
+    <div class="features-grid">
+      @for (feature of features; track feature.title) {
+        <div class="feature-card">
+          <div class="feature-icon">{{ feature.icon }}</div>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- XML Integration Showcase / Recruiter Partners -->
+<section class="recruiter-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="xml-pill">
+        <span class="xml-tag">&lt;XML&gt;</span> EWP Syllabus Integration: Asynchronously parsed from <code>assets/data/companies.xml</code>
+      </div>
+      <h2>Featured Corporate Recruiters</h2>
+      <p>Companies visiting for on-campus pool placement drives this semester.</p>
+    </div>
+
+    @if (loadingXml) {
+      <div class="loading-state">Loading company data from XML...</div>
+    } @else {
+      <div class="recruiter-grid">
+        @for (comp of xmlCompanies; track comp.id) {
+          <div class="company-card">
+            <div class="company-header">
+              <div class="company-logo-avatar">{{ comp.name.charAt(0) }}</div>
+              <div>
+                <span class="badge badge-accent">{{ comp.tier }}</span>
+                <h4>{{ comp.name }}</h4>
+              </div>
+            </div>
+            <div class="company-meta">
+              <div><strong>Sector:</strong> {{ comp.industry }}</div>
+              <div><strong>HQ:</strong> {{ comp.location }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- About Placement Cell Section -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-card">
+      <div class="about-text">
+        <span class="section-tag">About Campus Placement Cell</span>
+        <h2>Bridging Academia &amp; Industry Excellence</h2>
+        <p>
+          Our Campus Placement Management System (CPMS) automates student registration, job opportunity publication, 
+          merit-based CGPA eligibility screening, and interview tracking. Designed to adhere strictly to institutional fair-play policies.
+        </p>
+        <ul class="about-checklist">
+          <li>✓ 100% Verified student academic data with CGPA thresholds</li>
+          <li>✓ Real-time status updates: Applied, Shortlisted, Selected, Rejected</li>
+          <li>✓ Single-click application with instant eligibility validation</li>
+        </ul>
+        <div class="about-actions">
+          <a routerLink="/jobs" class="btn btn-primary">Browse Current Openings</a>
+        </div>
+      </div>
+      <div class="about-stats-box">
+        <h3>Drive Process Overview</h3>
+        <ol class="steps-list">
+          <li><strong>1. Discover:</strong> View company drives and criteria</li>
+          <li><strong>2. Verify:</strong> CGPA eligibility automatically verified</li>
+          <li><strong>3. Apply:</strong> One-click submission into placement roster</li>
+          <li><strong>4. Track:</strong> Receive updates on shortlists &amp; offers</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>

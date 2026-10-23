@@ -1,0 +1,142 @@
+<div class="admin-page container">
+  <!-- Top Admin Bar -->
+  <div class="admin-header">
+    <div>
+      <span class="badge badge-admin">Officer Control Center</span>
+      <h1>Placement Administration Dashboard</h1>
+      <p>Manage campus recruitments, monitor candidate pipelines, and review selection rosters.</p>
+    </div>
+    <div class="admin-actions">
+      <button (click)="logout()" class="btn btn-outline-danger">
+        <span>🚪</span> Officer Sign Out
+      </button>
+    </div>
+  </div>
+
+  <!-- Real-time notification toast -->
+  @if (notification) {
+    <div class="alert alert-success toast-alert">
+      <span>✓</span> {{ notification }}
+    </div>
+  }
+
+  <!-- Admin Metrics Cards -->
+  <div class="admin-metrics-grid">
+    <div class="stat-box box-blue">
+      <div class="stat-icon">👨‍🎓</div>
+      <div class="stat-details">
+        <span class="stat-number">{{ stats.totalStudents }}</span>
+        <span class="stat-name">Total Registered Students</span>
+      </div>
+    </div>
+
+    <div class="stat-box box-indigo">
+      <div class="stat-icon">💼</div>
+      <div class="stat-details">
+        <span class="stat-number">{{ stats.totalJobs }}</span>
+        <span class="stat-name">Active Campus Drives</span>
+      </div>
+    </div>
+
+    <div class="stat-box box-amber">
+      <div class="stat-icon">📑</div>
+      <div class="stat-details">
+        <span class="stat-number">{{ stats.totalApplications }}</span>
+        <span class="stat-name">Total Applications</span>
+      </div>
+    </div>
+
+    <div class="stat-box box-green">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-details">
+        <span class="stat-number">{{ stats.selectedStudents }}</span>
+        <span class="stat-name">Total Selected Candidates</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Applications Table Card -->
+  <div class="card-section">
+    <div class="card-section-header">
+      <div>
+        <h3>Candidate Applications &amp; Status Management</h3>
+        <p>Use the action dropdown in each row to update a candidate's selection status in real-time.</p>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Candidate Name</th>
+            <th>Company</th>
+            <th>Job Role</th>
+            <th>Submission Date</th>
+            <th>Current Status</th>
+            <th>Change Status (Admin Action)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (app of applications; track app.id; let idx = $index) {
+            <tr>
+              <td class="col-num">{{ idx + 1 }}</td>
+              <td class="col-student">
+                <strong>{{ app.studentName }}</strong>
+              </td>
+              <td class="col-comp">
+                <span class="comp-badge">{{ app.company }}</span>
+              </td>
+              <td class="col-role">{{ app.jobTitle }}</td>
+              <td class="col-date">{{ app.appliedDate }}</td>
+              <td class="col-badge">
+                <span
+                  class="badge-pill"
+                  [class.pill-applied]="app.status === 'Applied'"
+                  [class.pill-shortlisted]="app.status === 'Shortlisted'"
+                  [class.pill-selected]="app.status === 'Selected'"
+                  [class.pill-rejected]="app.status === 'Rejected'"
+                >
+                  {{ app.status }}
+                </span>
+              </td>
+              <td class="col-action">
+                <select
+                  [value]="app.status"
+                  (change)="onStatusChange(app, $event)"
+                  class="status-select"
+                >
+                  @for (opt of statusOptions; track opt) {
+                    <option [value]="opt">{{ opt }}</option>
+                  }
+                </select>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EWP XML Demonstration Showcase Box -->
+  <div class="xml-showcase-box">
+    <div class="xml-box-header">
+      <div class="xml-tag-bubble">&lt;XML Showcase&gt;</div>
+      <h4>EWP Syllabus Demonstration: Parsed XML Recruiter Data</h4>
+    </div>
+    <p class="xml-desc">
+      Demonstrating XML parsing via Angular <code>HttpClient</code> and browser <code>DOMParser</code> from 
+      <code>assets/data/companies.xml</code>:
+    </p>
+    <div class="xml-list">
+      @for (comp of xmlCompanies; track comp.id) {
+        <div class="xml-item">
+          <strong>{{ comp.name }}</strong>
+          <span>• Industry: {{ comp.industry }}</span>
+          <span>• Location: {{ comp.location }}</span>
+          <span class="xml-tier-badge">{{ comp.tier }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

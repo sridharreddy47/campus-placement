@@ -1,0 +1,156 @@
+<div class="jobs-page container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <span class="badge badge-accent">On-Campus Drives 2024-25</span>
+      <h1>Available Career Opportunities</h1>
+      <p>Explore current campus job openings, check your eligibility, and submit your placement application.</p>
+    </div>
+
+    @if (currentStudent) {
+      <div class="student-status-badge">
+        <span class="status-indicator"></span>
+        <span>Candidate: <strong>{{ currentStudent.name }}</strong> (CGPA: <strong>{{ currentStudent.cgpa }}</strong>)</span>
+      </div>
+    }
+  </div>
+
+  <!-- Notification Banner -->
+  @if (alertMessage) {
+    <div class="alert alert-{{ alertType }} alert-dismissible">
+      <div class="alert-content">
+        @if (alertType === 'success') { <span>✓</span> }
+        @if (alertType === 'danger') { <span>⚠️</span> }
+        @if (alertType === 'info') { <span>ℹ️</span> }
+        <span>{{ alertMessage }}</span>
+      </div>
+      <button class="alert-close" (click)="dismissAlert()">✖</button>
+    </div>
+  }
+
+  <!-- Search and Filter Controls -->
+  <div class="filter-bar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="applyFilter()"
+        placeholder="Search by company, job role, or skill (e.g. Java, Python)..."
+        class="search-input"
+      />
+      @if (searchQuery) {
+        <button class="clear-search-btn" (click)="searchQuery = ''; applyFilter()">✖</button>
+      }
+    </div>
+
+    <div class="filters-row">
+      <div class="filter-item">
+        <label for="cgpaSelect">Max Min-CGPA:</label>
+        <select id="cgpaSelect" [(ngModel)]="selectedCgpaFilter" (change)="applyFilter()" class="filter-select">
+          <option value="all">All Requirements</option>
+          <option value="6.0">Min CGPA &le; 6.0</option>
+          <option value="6.5">Min CGPA &le; 6.5</option>
+          <option value="7.0">Min CGPA &le; 7.0</option>
+          <option value="7.5">Min CGPA &le; 7.5</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="locSelect">Location:</label>
+        <select id="locSelect" [(ngModel)]="selectedLocationFilter" (change)="applyFilter()" class="filter-select">
+          <option value="all">All Locations</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Pune">Pune</option>
+          <option value="Gurgaon">Gurgaon</option>
+          <option value="Chennai">Chennai</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Job Count Summary -->
+  <div class="jobs-meta-info">
+    <span>Showing <strong>{{ filteredJobs.length }}</strong> of {{ jobs.length }} drives</span>
+    @if (searchQuery || selectedCgpaFilter !== 'all' || selectedLocationFilter !== 'all') {
+      <button class="reset-filter-btn" (click)="searchQuery = ''; selectedCgpaFilter = 'all'; selectedLocationFilter = 'all'; applyFilter()">
+        Reset Filters
+      </button>
+    }
+  </div>
+
+  <!-- Jobs Grid -->
+  @if (filteredJobs.length === 0) {
+    <div class="empty-jobs">
+      <div class="empty-icon">📂</div>
+      <h3>No matching jobs found</h3>
+      <p>Try modifying your search keywords or resetting filters.</p>
+    </div>
+  } @else {
+    <div class="jobs-grid">
+      @for (job of filteredJobs; track job.id) {
+        <div class="job-card" [class.job-card-applied]="isAlreadyApplied(job.id)">
+          <!-- Company & Role Header -->
+          <div class="job-header">
+            <div class="company-badge-box">
+              <span class="company-initial">{{ job.company.charAt(0) }}</span>
+              <div>
+                <h3 class="company-name">{{ job.company }}</h3>
+                <span class="job-location">📍 {{ job.location }}</span>
+              </div>
+            </div>
+            <div class="job-package">{{ job.salary }}</div>
+          </div>
+
+          <h2 class="job-title">{{ job.title }}</h2>
+          <p class="job-description">{{ job.description }}</p>
+
+          <!-- Criteria / Badges -->
+          <div class="job-criteria">
+            <div class="criteria-item">
+              <span class="criteria-label">Eligibility Cutoff:</span>
+              <span class="criteria-value" [class.ineligible-flag]="currentStudent && currentStudent.cgpa < job.minCgpa">
+                Min {{ job.minCgpa }} CGPA
+              </span>
+            </div>
+
+            @if (currentStudent && currentStudent.cgpa < job.minCgpa) {
+              <div class="criteria-alert">
+                ⚠️ Your CGPA ({{ currentStudent.cgpa }}) is below minimum requirement.
+              </div>
+            }
+          </div>
+
+          <!-- Skills Needed -->
+          <div class="job-skills">
+            <span class="skills-heading">Required Skills:</span>
+            <div class="skills-chips">
+              @for (skill of job.skills; track skill) {
+                <span class="skill-chip">{{ skill }}</span>
+              }
+            </div>
+          </div>
+
+          <!-- Card Footer / Action Button -->
+          <div class="job-footer">
+            @if (isAlreadyApplied(job.id)) {
+              <button class="btn btn-applied" disabled>
+                <span>✓</span> Already Applied
+              </button>
+            } @else if (currentStudent && !isEligible(job)) {
+              <button class="btn btn-ineligible" (click)="handleApply(job)">
+                <span>🚫</span> Ineligible (CGPA &lt; {{ job.minCgpa }})
+              </button>
+            } @else {
+              <button class="btn btn-primary btn-apply" (click)="handleApply(job)">
+                <span>🚀</span> Apply for Job
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

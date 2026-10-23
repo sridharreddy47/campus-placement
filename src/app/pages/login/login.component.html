@@ -1,0 +1,96 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-avatar">🎓</div>
+      <h2>CPMS Portal Login</h2>
+      <p>Enter your institutional credentials to continue</p>
+    </div>
+
+    <!-- Quick Demo Logins Helper -->
+    <div class="demo-box">
+      <div class="demo-title">
+        <span>⚡</span> Quick Demo Credentials (Click to Autofill)
+      </div>
+      <div class="demo-buttons">
+        <button type="button" class="btn-demo" (click)="fillStudentCredentials()">
+          👤 Student Demo
+        </button>
+        <button type="button" class="btn-demo btn-demo-admin" (click)="fillAdminCredentials()">
+          🛡️ Admin Demo
+        </button>
+      </div>
+      <div class="demo-hints">
+        <small><strong>Student:</strong> student&#64;campus.com / student123</small><br />
+        <small><strong>Admin:</strong> admin&#64;campus.com / admin123</small>
+      </div>
+    </div>
+
+    <!-- Feedback messages -->
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        ⚠️ {{ errorMessage }}
+      </div>
+    }
+
+    @if (successMessage) {
+      <div class="alert alert-success">
+        ✓ {{ successMessage }} Redirecting...
+      </div>
+    }
+
+    <!-- Reactive Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="email">Campus Email Address *</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="e.g. student@campus.com"
+          class="form-control"
+          [class.is-invalid]="(email?.touched || isSubmitted) && email?.invalid"
+        />
+        @if ((email?.touched || isSubmitted) && email?.errors) {
+          <div class="invalid-feedback">
+            @if (email?.errors?.['required']) {
+              <span>Email address is required.</span>
+            }
+            @if (email?.errors?.['email']) {
+              <span>Please enter a valid email format.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          class="form-control"
+          [class.is-invalid]="(password?.touched || isSubmitted) && password?.invalid"
+        />
+        @if ((password?.touched || isSubmitted) && password?.errors) {
+          <div class="invalid-feedback">
+            @if (password?.errors?.['required']) {
+              <span>Password is required.</span>
+            }
+            @if (password?.errors?.['minlength']) {
+              <span>Password must be at least 4 characters long.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        Sign In to Portal
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <a routerLink="/" class="back-link">← Return to Home Page</a>
+    </div>
+  </div>
+</div>

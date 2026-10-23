@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<companies>
+  <company id="1">
+    <name>Tata Consultancy Services (TCS)</name>
+    <industry>Information Technology &amp; Services</industry>
+    <headquarters>Mumbai, India</headquarters>
+    <tier>Tier 1 Recruiter</tier>
+  </company>
+  <company id="2">
+    <name>Infosys Technologies</name>
+    <industry>IT Consulting &amp; Software</industry>
+    <headquarters>Bengaluru, India</headquarters>
+    <tier>Tier 1 Recruiter</tier>
+  </company>
+  <company id="3">
+    <name>Accenture Solutions</name>
+    <industry>Management &amp; Tech Consulting</industry>
+    <headquarters>Hyderabad, India</headquarters>
+    <tier>Tier 1 Recruiter</tier>
+  </company>
+</companies>

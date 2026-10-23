@@ -1,0 +1,87 @@
+<div class="applications-page container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <span class="badge badge-accent">Track Progress</span>
+      <h1>My Submitted Applications</h1>
+      <p>Review interview status and offer decisions for all companies you applied to.</p>
+    </div>
+    <div class="header-action">
+      <a routerLink="/jobs" class="btn btn-primary">
+        <span>🔍</span> Browse More Jobs
+      </a>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="mini-card card-total">
+      <span class="mini-num">{{ stats.total }}</span>
+      <span class="mini-label">Total Applied</span>
+    </div>
+    <div class="mini-card card-applied">
+      <span class="mini-num">{{ stats.applied }}</span>
+      <span class="mini-label">Under Review</span>
+    </div>
+    <div class="mini-card card-shortlisted">
+      <span class="mini-num">{{ stats.shortlisted }}</span>
+      <span class="mini-label">Shortlisted</span>
+    </div>
+    <div class="mini-card card-selected">
+      <span class="mini-num">{{ stats.selected }}</span>
+      <span class="mini-label">Offers Selected</span>
+    </div>
+    <div class="mini-card card-rejected">
+      <span class="mini-num">{{ stats.rejected }}</span>
+      <span class="mini-label">Rejected</span>
+    </div>
+  </div>
+
+  <!-- Applications Table -->
+  <div class="table-container">
+    @if (applications.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">📄</div>
+        <h3>No Applications Submitted Yet</h3>
+        <p>You haven't applied to any campus placement drives yet.</p>
+        <a routerLink="/jobs" class="btn btn-primary">View Open Jobs Now</a>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Company Name</th>
+              <th>Job Profile</th>
+              <th>Applied Date</th>
+              <th>Current Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (app of applications; track app.id; let idx = $index) {
+              <tr>
+                <td class="col-idx">{{ idx + 1 }}</td>
+                <td class="col-company">
+                  <div class="company-cell">
+                    <span class="company-bullet">{{ app.company.charAt(0) }}</span>
+                    <strong>{{ app.company }}</strong>
+                  </div>
+                </td>
+                <td class="col-job">
+                  <span class="job-title-text">{{ app.jobTitle }}</span>
+                </td>
+                <td class="col-date">{{ app.appliedDate | date:'mediumDate' }}</td>
+                <td class="col-status">
+                  <span class="status-badge" [ngClass]="getStatusBadgeClass(app.status)">
+                    {{ app.status }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

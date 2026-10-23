@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "company": "TCS",
+    "title": "Software Developer",
+    "location": "Mumbai",
+    "salary": "₹4.5 LPA",
+    "minCgpa": 6.5,
+    "skills": ["Java", "SQL", "Git"],
+    "description": "Responsible for developing enterprise software solutions and maintaining scalable database applications."
+  },
+  {
+    "id": 2,
+    "company": "Infosys",
+    "title": "Java Developer",
+    "location": "Bangalore",
+    "salary": "₹5.0 LPA",
+    "minCgpa": 7.0,
+    "skills": ["Java", "Spring Boot", "MySQL"],
+    "description": "Develop and support backend microservices, REST APIs, and enterprise cloud applications."
+  },
+  {
+    "id": 3,
+    "company": "Accenture",
+    "title": "Frontend Developer",
+    "location": "Hyderabad",
+    "salary": "₹5.5 LPA",
+    "minCgpa": 6.8,
+    "skills": ["HTML", "CSS", "JavaScript", "Angular"],
+    "description": "Design and build responsive web user interfaces adhering to modern web development standards."
+  },
+  {
+    "id": 4,
+    "company": "Wipro",
+    "title": "Python Developer",
+    "location": "Pune",
+    "salary": "₹4.8 LPA",
+    "minCgpa": 6.5,
+    "skills": ["Python", "Django", "REST API"],
+    "description": "Build high-performance web backends and data automation pipelines for clients."
+  },
+  {
+    "id": 5,
+    "company": "Deloitte",
+    "title": "Data Analyst",
+    "location": "Gurgaon",
+    "salary": "₹7.0 LPA",
+    "minCgpa": 7.5,
+    "skills": ["Python", "SQL", "PowerBI", "Excel"],
+    "description": "Analyze complex business datasets, create executive dashboards, and derive strategic insights."
+  },
+  {
+    "id": 6,
+    "company": "Cognizant",
+    "title": "QA Engineer",
+    "location": "Chennai",
+    "salary": "₹4.2 LPA",
+    "minCgpa": 6.0,
+    "skills": ["Manual Testing", "Selenium", "Java"],
+    "description": "Execute automated and manual test scripts to ensure product quality and defect tracking."
+  }
+]

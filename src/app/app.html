@@ -1,0 +1,124 @@
+<!-- Navigation Bar -->
+<header class="app-header">
+  <div class="nav-container">
+    <a routerLink="/" class="brand-logo" (click)="closeMobileMenu()">
+      <span class="brand-icon">🎓</span>
+      <div class="brand-text">
+        <span class="brand-title">Campus Placement</span>
+        <span class="brand-sub">Management System</span>
+      </div>
+    </a>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button class="mobile-toggle" (click)="toggleMobileMenu()" aria-label="Toggle navigation">
+      <span>{{ mobileMenuOpen ? '✖' : '☰' }}</span>
+    </button>
+
+    <!-- Navigation Links -->
+    <nav class="nav-menu" [class.menu-open]="mobileMenuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()" class="nav-link">
+        Home
+      </a>
+      <a routerLink="/jobs" routerLinkActive="active" (click)="closeMobileMenu()" class="nav-link">
+        Jobs
+      </a>
+
+      @if (authService.isStudent()) {
+        <a routerLink="/student-dashboard" routerLinkActive="active" (click)="closeMobileMenu()" class="nav-link">
+          Dashboard
+        </a>
+        <a routerLink="/my-applications" routerLinkActive="active" (click)="closeMobileMenu()" class="nav-link">
+          My Applications
+        </a>
+      }
+
+      @if (authService.isAdmin()) {
+        <a routerLink="/admin-dashboard" routerLinkActive="active" (click)="closeMobileMenu()" class="nav-link">
+          Admin Portal
+        </a>
+      }
+
+      <!-- User Auth State Actions -->
+      <div class="nav-auth">
+        @if (!authService.isLoggedIn()) {
+          <a routerLink="/login" (click)="closeMobileMenu()" class="btn btn-primary btn-sm">
+            Sign In
+          </a>
+        } @else {
+          <div class="user-pill">
+            <span class="user-role-dot" [class.dot-admin]="authService.isAdmin()"></span>
+            <span class="user-name">{{ authService.getCurrentUser()?.name }}</span>
+          </div>
+          <button (click)="logout()" class="btn btn-outline-danger btn-sm">
+            Logout
+          </button>
+        }
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Main Router Content -->
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Professional Footer -->
+<footer class="app-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span class="footer-brand-icon">🎓</span>
+          <span class="footer-brand-title">CPMS Portal</span>
+        </div>
+        <p class="footer-text">
+          Campus Placement Management System — bridging university talent with premier recruiters through transparent eligibility workflows.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>EWP Syllabus Topics</h4>
+        <ul class="footer-links">
+          <li>✓ HTML5 &amp; Semantic Web</li>
+          <li>✓ Responsive Modern CSS</li>
+          <li>✓ TypeScript &amp; OOP Models</li>
+          <li>✓ Angular Reactive Forms &amp; Validation</li>
+          <li>✓ JSON Loading via HttpClient (AJAX)</li>
+          <li>✓ XML Parsing via DOMParser</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation Links</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/">Home Landing</a></li>
+          <li><a routerLink="/jobs">Campus Job Openings</a></li>
+          <li><a routerLink="/login">Portal Login</a></li>
+          @if (authService.isStudent()) {
+            <li><a routerLink="/student-dashboard">Student Dashboard</a></li>
+            <li><a routerLink="/my-applications">My Applications</a></li>
+          }
+          @if (authService.isAdmin()) {
+            <li><a routerLink="/admin-dashboard">Admin Dashboard</a></li>
+          }
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Demonstration Logins</h4>
+        <div class="footer-creds">
+          <p><strong>Student:</strong> student&#64;campus.com</p>
+          <p><strong>Pass:</strong> student123</p>
+          <hr />
+          <p><strong>Admin:</strong> admin&#64;campus.com</p>
+          <p><strong>Pass:</strong> admin123</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Campus Placement Management System (CPMS) — Built for EWP Lab Project Demonstration.</p>
+    </div>
+  </div>
+</footer>
